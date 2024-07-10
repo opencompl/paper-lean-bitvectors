@@ -1,5 +1,20 @@
 # Introduction
 
+Bitvectors, that is, fixed-width integers, are common place when reasoning across a variety of low-level domain. For example, when giving semantics to LLVM IR, when trying to prove correctness of some cryptographic procedure, or when reasoning about hardware.
+
+SMT solvers are generally very good at solving equations about bitvectors completely automatically, and have been wildly successful across a variety of domains. 
+However, the way they work means they *only* work automatically.
+Thus, once we step outside what an SMT solver can do, either practically (the SMT solver might time out if the problem we give it is too large) or fundamentally (SMT solvers can only prove equalities up to some *bounded* width, not for arbitrary widths), the SMT solver will not be able to help at all.
+There is no way to combine some insight from the user with the SMT solvers capabilities: either the tool works and proofs (or disproofs) the equality as a whole, or the SMT solver is inconclusive, giving no information at all.
+
+Thus, we look at interactive theorem provers. In particular, we'll be discussing the Lean Theorem Prover [[@demouraLeanTheoremProver2015]].
+In Lean, we can express both the property and a proof of said property.
+This means we can *express* much more than an SMT can traditionally solve. However, coming up with a proof requires non-trivial proof engineering effort from an expert.
+
+
+
+
+
  * Bitvectors are foundational to low-level reasoning (e.g., LLVM IR, crypto, hardware)
  * SMT-solvers are good at solving bounded problems, at low bounds at least
 * However, to 
