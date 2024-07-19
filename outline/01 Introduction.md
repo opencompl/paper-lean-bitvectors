@@ -1,60 +1,75 @@
-# Introduction
+# Taming the Bitvector Bestiary
 
-Bitvectors, that is, fixed-width integers, are common place when reasoning across a variety of low-level domain. For example, when giving semantics to LLVM IR, when trying to prove correctness of some cryptographic procedure, or when reasoning about hardware.
+### A Characterization of Whitebox Bitvector Proof Strategies
 
-SMT solvers are generally very good at solving equations about bitvectors completely automatically, and have been wildly successful across a variety of domains. 
-However, the way they work means they *only* work automatically.
-Thus, once we step outside what an SMT solver can do, either practically (the SMT solver might time out if the problem we give it is too large) or fundamentally (SMT solvers can only prove equalities up to some *bounded* width, not for arbitrary widths), the SMT solver will not be able to help at all.
-There is no way to combine some insight from the user with the SMT solvers capabilities: either the tool works and proofs (or disproofs) the equality as a whole, or the SMT solver is inconclusive, giving no information at all.
+Effectively reasoning about bitvectors is foundational for program verification. Bitvectors model integer operations in compiler intermediate representations (e.g., LLVM-IR [VeLLEM]) and machine code [Sail, ASL], combinational logic in hardware designs [Chipala], and are a central component when modelling floating point arithmetic [?]. While assembly code uses fixed-width bitvectors of a small width (e.g., 32 or 64), specialised hardware for cryptography [OpenTitan, FHE] and many hardware designs require fixed but wide bitvectors. Bitvectors are also a widely-used theory in SMT solvers [Z3, CVC4], where SMT solvers expose user-facing fixed-width bitvectors through smtlib [SMTLIB] and internally use width-agnostic bitvector rewrites when canonicalising SMT formulas. Consequently, a comprehensive theory of Bitvectors is critical for a program verification software ecosystem.
 
-Thus, we look at interactive theorem provers. In particular, we'll be discussing the Lean Theorem Prover [[@demouraLeanTheoremProver2015]].
-In Lean, we can express both the property and a proof of said property.
-This means we can *express* much more than an SMT can traditionally solve. However, coming up with a proof requires non-trivial proof engineering effort from an expert.
+  
 
+Today, there are three main approaches for reasoning about BitVectors: (a) SMT solvers provide a fully automatic – but partial – black box solution for fixed-width BitVector reasoning, (b) interactive theorem provers provide a universal white box solution driven by a human developer supported by automation, and (c) the no-formalism approach where programmers use integer types in their programming language informally applying bitvector knowledge as documented in books such as [Hacker's Delight]. While each approach has complementary strengths, we lack a solution where automation, developer-guided proofs, and programming language support for bitvectors are first-class across all three dimensions.
 
+  
 
+SMT solvers are excellent at solving equations about fixed-width bitvectors, as their finite domain permits effective reductions to SAT. Reducing bitvector decision problems to SAT via bitblasting has been widely successful across various domains. However, the way they work means they *only* work automatically. Thus, once we step outside what an SMT solver can do, either practically (the SMT solver might time out if the problem we give it is too large) or fundamentally (SMT solvers can only prove equalities up to some *bounded* width, not for arbitrary widths), the SMT solver is unable to help. There is no way to combine some insight from the user with the SMT solver's capabilities: either the tool works and proves (or disproves) the equality as a whole, or the SMT solver is inconclusive, leaving the user without information or a path towards a potential solution.
 
+  
 
- * Bitvectors are foundational to low-level reasoning (e.g., LLVM IR, crypto, hardware)
- * SMT-solvers are good at solving bounded problems, at low bounds at least
-* However, to 
+Interactive theorem provers (ITPs) allow for limitless bitvector reasoning: they can express both fixed-width and bit-width-generic theorems, while proofs are only limited by the mathematical abilities of the proof engineer. Big formal verification efforts such as [CompCert], [DeepSpec], and [Chipala] for the end-to-end verification of compilers, as well as efforts to verify an SAT solver [cite], have resulted in several BitVector libraries in COQ [A, B, C], with no official support across all of them. Isabelle is particularly well-known for the powerful automation it gains from the close integration of proof-producing SMT solvers, which also applies to its ability to reason about BitVectors. Yet, <...>. Finally, while both Isabell and COQ support code extraction, they are primarily a proof environment and less a programming language.
 
- * However, crypto sometimes wants to talk about bitvectors with bounds too large
- * Also, since SMT-solvers basically solve the problem for each concrete width within the bound, they scale really poorly when a problem involves multiple, independent widths.
- 
- For this reason, we look into solving bitvector problems for arbitrary/unbounded widths:
- * This problem is known to be undecidable in general
- * Yet, we can recognize specific classes of bitvectors problems that *do* have a decision procedure.
- * We identify three such clasess, depending on the operations that are contained in the expression:
-	 * Only bitwise operations (and, or, not, xor)
-	 * Only addition and multiplication
-	 * Only addition, bitwise operations, left shift by a constant
+In this work, we make a case for unified first-class bitvector support in an interactive theorem prover that delivers along all three dimensions: (a) automation, (b) extensibility, and (c) programmability. In particular, we present a comprehensive theory of bitvector reasoning that is complete for either fixed-width reasoning, or for arbitrary-width reasoning over specific classes of operations.
 
+  
 
-We've implemented these decision procedures in Lean 
->[!TODO]
-> - Introduce Lean
-> - Defend why we use Lean
+For fixed-width reasoning, we use LeanSAT, which employs a verified bitblaster, and a certificate-producing SAT solver, together with a verified certificate checker. 
 
-Furthermore, we evaluate these decision procedures by looking at a big corpus of real-world bitvector equalities, taken from the domain of compiler optimizations, to see what portion of real-world problems fall within the classes we are able to solve.
+  
+
+To make performance more reliable, SMT solvers rely on a host of canonicalization rules. For example, a multiplication $x * 2^y$ might be rewritten as a shift $x <<< y$, since shifting is easier (thus more performant) to bitblast. To justify these canonicalizations within Lean, we have to prove the equality holds for all possible widths.
+
+  
+
+Deciding such equalities is known to be undecidable in general, so there is no hope to write reliable proof automation for all possible properties. However, we can write decision procedures for expressions with a limited set of operations.
+
+We identify, and provide Lean proof automation for, three such classes. Namely, when the property of interest contains:
+
+* Only bitwise operations (and, or, not, xor), or
+* Only addition and multiplication, or
+* Only addition, bitwise operations and left shift by a constant
+
+  
+Finally, we evaluate these decision procedures by looking at a big corpus of real-world bitvector equalities, taken from the domain of compiler optimizations, to see what portion of real-world problems fall within the classes we are able to solve.
+
+  
 
 Our contributions are:
-	* First-class bit vectors for interactive theorem proving: design and implementation of a bitvector theory, its close integration with fixed and arbitrary-width decision procedures, and the deep integration of our system in a modern modern theorem prover -- offering streamlined bit vector reasoning for proof engineering
-	* A fully integrated tactic to discharge fixed-width bitvector goals, by using reflection, a verified bitblaster, and SAT certificate checking
-	* An automata based verified decision procedure which can solve a mix of arbitrary-width bitwise and arithmetic operations, and use it to build a simplification pass for bitvector goals
-	* An overview of existing bitvector decision procedures, proof automation in general, and the bitvector equalities they can solve
 
->[!TODO]
-> De-emphasize the evaluation in the intro: our main contribution is the integration / proof automation; the evaluation is just the cherry on top.
+* First-class bit vectors for interactive theorem proving: design and implementation of a bitvector theory, its close integration with fixed and arbitrary-width decision procedures, and the deep integration of our system in a modern modern theorem prover -- offering streamlined bit vector reasoning for proof engineering
+* A fully integrated tactic to discharge fixed-width bitvector goals, by using reflection, a verified bitblaster, and SAT certificate checking
+* An automata based verified decision procedure which can solve a mix of arbitrary-width bitwise and arithmetic operations, and use it to build a simplification pass for bitvector goals
+* An overview of existing bitvector decision procedures, proof automation in general, and the bitvector equalities they can solve
+
+  
+  
+
+  
+  
 
 ### Related Work
+
 Shi et al. built a verified bitblaster in Coq. However, their bitblaster functions as an independent program; they did not implement the reflection needed to use this as proof automation from within Coq itself.^[1]
-Alternatively, SmtCoq *does* work as a way to discharge Coq goals, but they do this by relying on the full *SMT* capabilities. In contract, LeanSAT uses a *verified* bitblaster and then checks *SAT* certificates. 
+
+Alternatively, SmtCoq *does* work as a way to discharge Coq goals, but they do this by relying on the full *SMT* capabilities. In contract, LeanSAT uses a *verified* bitblaster and then checks *SAT* certificates.
+
+  
+
+More importantly, while Coq does have the ability to extract executable code, Lean is explicitly also a general purpose programming language, and running Lean code is a first-class concern in the ecosystem. This is exemplified by the representation 
+
+  
+
 > [!TODO]
 > Explain why SAT-checking is desirable over SMT cert checking
+  
 
 [1]: CoqQFBV: A Scalable Certified SMT Quantifier-Free Bit-Vector Solver
+
 [2]: SmtCoq
-
-
-
