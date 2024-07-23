@@ -5,17 +5,19 @@
 ![[01 Introduction]]
 
 
-![[01 LeanSAT]]
+![[02 Preliminaries]]
 
-![[02 Arbitrary Width]]
+![[03 LeanSAT]]
+
+![[04 Arbitrary Width]]
 
 
-![[03 Automaton Decision Procedure]]
+![[05 Automaton Decision Procedure]]
 
 
 ![[04 Non-complete automation]]
 ## Evaluation
-![[05 Evaluation]]
+![[06 Evaluation]]
 
 
 ## Reading Notes
