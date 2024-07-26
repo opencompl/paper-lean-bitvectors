@@ -22,14 +22,11 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
 
-    - name: Install pandoc
-      run: |
-        sudo apt install pandoc
-
     - name: Compile paper
       uses: xu-cheng/latex-action@master
       with:
         pre_compile: |
+          sudo apt install pandoc
           make paper.pdf
         root_file: paper.tex
 
@@ -37,6 +34,7 @@ jobs:
       uses: xu-cheng/latex-action@master
       with:
         pre_compile: |
+          sudo apt install pandoc
           make submission.pdf
         root_file: submission.tex
 
