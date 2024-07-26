@@ -26,17 +26,16 @@ jobs:
       run: |
         sudo apt install pandoc
 
-    - name: Build paper prerequisites
-      run: |
-        make paper.pdf
 
     - name: Compile paper
       uses: xu-cheng/latex-action@master
+      pre_compile: make paper.pdf
       with:
         root_file: paper.tex
 
     - name: Compile submission
       uses: xu-cheng/latex-action@master
+      pre_compile: make submission.pdf
       with:
         root_file: submission.tex
 
