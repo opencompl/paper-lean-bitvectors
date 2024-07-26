@@ -1,6 +1,4 @@
-# Taming the Bitvector Bestiary
-
-### A Characterization of Whitebox Bitvector Proof Strategies
+# Introduction
 
 Effectively reasoning about bitvectors is foundational for program verification. Bitvectors model integer operations in compiler intermediate representations (e.g., LLVM-IR [VeLLEM]) and machine code [Sail, ASL], combinational logic in hardware designs [Chipala], and are a central component when modelling floating point arithmetic [?]. While assembly code uses fixed-width bitvectors of a small width (e.g., 32 or 64), specialised hardware for cryptography [OpenTitan, FHE] and many hardware designs require fixed but wide bitvectors. Bitvectors are also a widely-used theory in SMT solvers [Z3, CVC4], where SMT solvers expose user-facing fixed-width bitvectors through smtlib [SMTLIB] and internally use width-agnostic bitvector rewrites when canonicalising SMT formulas. Consequently, a comprehensive theory of Bitvectors is critical for a program verification software ecosystem.
 
