@@ -29,13 +29,15 @@ jobs:
     - name: Compile paper
       uses: xu-cheng/latex-action@master
       with:
-        pre_compile: make paper.pdf
+        pre_compile: |
+          make paper.pdf
         root_file: paper.tex
 
     - name: Compile submission
       uses: xu-cheng/latex-action@master
       with:
-        pre_compile: make submission.pdf
+        pre_compile: |
+          make submission.pdf
         root_file: submission.tex
 
     - name: Format Python files with yapf
