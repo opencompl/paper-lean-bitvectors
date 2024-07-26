@@ -22,7 +22,18 @@ grammar: paper.tex
 	-textidote --check en --output html paper.tex > index.html
 	python3 -m http.server
 
-${PDF_PAPER}: ${TEX_MAIN_PAPER} ${IMAGES}
+
+%.tex: %.md
+	pandoc -f markdown -t latex -o $@ $<
+
+${PDF_PAPER}: ${TEX_MAIN_PAPER} ${IMAGES} \
+	outline/00-abstract.tex \
+	outline/01-introduction.tex \
+	outline/01-LeanSAT.tex \
+	outline/02-arbitrary-width.tex \
+	outline/03-Automaton-Decision-Procedure.tex \
+	outline/04-Non-complete-automation.tex \
+	outline/05-Evaluation.tex
 	latexmk ${TEX_MAIN_PAPER}
 
 ${PDF_SUBMISSION}: ${TEX_MAIN_SUBMISSION} ${IMAGES}
@@ -40,3 +51,4 @@ view-submission: ${TEX_MAIN_SUBMISSION} ${IMAGES}
 
 clean:
 	latexmk -C
+	rm -f outline/*.tex

@@ -150,6 +150,9 @@
 \renewcommand{\subsectionautorefname}{Section}
 \renewcommand{\subsubsectionautorefname}{Section}
 
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
 \begin{document}
 
 % Whitebox BitVector 
@@ -280,6 +283,15 @@ By providing a characterization of different classes of bitvector problems,
 %% commands, abstract environment, Computing Classification System
 %% environment and commands, and keywords command.
 \maketitle
+
+\input{outline/00-abstract.tex}
+\input{outline/01-introduction.tex}
+\input{outline/01-LeanSAT.tex}
+\input{outline/02-arbitrary-width.tex}
+\input{outline/03-Automaton-Decision-Procedure.tex}
+\input{outline/04-Non-complete-automation.tex}
+\input{outline/05-Evaluation.tex}
+
 
 \section{Introduction}
 
