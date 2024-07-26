@@ -26,7 +26,7 @@ jobs:
       uses: xu-cheng/latex-action@master
       with:
         pre_compile: |
-          sudo apt install pandoc
+          apt install pandoc
           make paper.pdf
         root_file: paper.tex
 
@@ -34,7 +34,7 @@ jobs:
       uses: xu-cheng/latex-action@master
       with:
         pre_compile: |
-          sudo apt install pandoc
+          apt install pandoc
           make submission.pdf
         root_file: submission.tex
 
