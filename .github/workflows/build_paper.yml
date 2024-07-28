@@ -27,7 +27,7 @@ jobs:
       with:
         pre_compile: |
           apk add pandoc
-          apk add pandoc-crossref
+          apk add hs-pandoc-crossref
           make paper.pdf
         root_file: paper.tex
 
@@ -36,7 +36,7 @@ jobs:
       with:
         pre_compile: |
           apk add pandoc
-          apk add pandoc-crossref
+          apk add hs-pandoc-crossref
           make submission.pdf
         root_file: submission.tex
 
