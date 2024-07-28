@@ -20,6 +20,8 @@ lean4/lean4/src/Init/Data/BitVec $ cloc .
 
 The core mechanization API consists of \NumDefsAndAbbrevs defintions and abbreviations, \NumTheorems theorems, and a total of \NumLinesOfCode LoC. 
 
+## Design of BitVector Definitions
+
 The low-definition of a $\texttt{BitVec} w$ is a number $n$ with a proof $\texttt{isLt} : n < 2^w$.
 We choose this definition, instead of the other potential choice of a vector of booleans as this definition permits efficient implementation of all operations, both arithmetic and bitwise. Recall that Lean's kernel has special support for natural numbers via GMP, and we ensure our definitions are capable of exploiting this.
 Moreover, the representation is \emph{signless} --- the bitvector itself carries no notion of being signed or unsigned.
@@ -44,3 +46,9 @@ complement value, given by $(2^0 b_0 + 2^1 b_1 + \dots + 2^{w-2} b_{w-2} - 2^{w-
 For the other direction, `ofInt` takes an integer $i$, first brings it into range by computing $i' \equiv i % 2^n$, where modulo is the unique relation that obeys $(i = i % 2^n + (i / 2^n) * 2^n)$. Note that in particular,
 this number will obey $0 \leq i % 2^n < 2^n$.
 This gives us the proof that this is inbounds. So in total, we implement $\texttt{ofInt}(i) \equiv \texttt{ofNat} (i % 2^n)$. The sign sensitive operations are the built in terms of \texttt{ofInt} and \texttt{toInt}.
+
+## Arithmetic Reasoning
+
+## Bitwise Reasoning via `getLsb`
+
+## Circuit Reasoning for Addition via `unfoldr`
