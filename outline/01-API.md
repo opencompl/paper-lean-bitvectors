@@ -49,6 +49,34 @@ This gives us the proof that this is inbounds. So in total, we implement $\textt
 
 ## Arithmetic Reasoning
 
+\sloppypar
+For arithmetic reasoning, we first prove a master theorem that says that two bitvectors are equal if their values when interpreted as natural numbers (or integers) are equal (`eq_of_toNat_eq`, `eq_of_toInt_eq`).
+Next, for the arithmetic operations, we prove how the result of an arithmetic operation interpreted
+as a natural number relates to the inputs interpreted as a natural number. For example, we prove that
+$(a + b).toNat = (a.toNat + b.toNat) % 2^w$.
+
+Similarly, we also prove for sign-sensitive operations, the result of coercing to an integer.
+For example, we prove that $x.sshiftRight i = (x.toInt >>> i).ofInt$.
+Note that this theorem cannot be written in terms of natural numbers,
+since the semantics of signed shifting is crucially dependent on the signed interpretation of the argument.
+
+To aid reasoning in complex scenarios involving `toInt`,
+we prove relations between `toInt` and `toNat`, governed by the `msb` of the bitvector.
+For example, we prove:
+
+<!-- TODO: move this into a large figure with all the key theorems. -->
+```
+toInt_eq_toNat_cond: x.toInt =
+	if x.msb
+	then (x.toNat : Int) - (2^w : Nat)
+	else (x.toNat : Int)
+```
+
+### Special case lemmas when no overflow occurs.
+
+We also prove theorems that show that when no overflow is possible, the results of arithmetic expressions
+do not need to be guarded by a modulo. So, we have theorems such as $(carry(a, b, w) = 0 \implies (a + b).toNat = a.toNat + b.toNat$
+
 ## Bitwise Reasoning via `getLsb`
 
 To retrieve the value of a particular bit in a bitvector, we have the operation `v.getLsb i` which returns the value of the $i$-th least significant bit (`v.getLsb 0` is the least significant bit, while `v.getLsb (w-1)` is the most significant bit.)
