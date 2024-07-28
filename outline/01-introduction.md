@@ -25,14 +25,10 @@ For fixed-width reasoning, we use LeanSAT, which employs a verified bitblaster, 
 To make performance more reliable, SMT solvers rely on a host of canonicalization rules. For example, a multiplication $x * 2^y$ might be rewritten as a shift $x <<< y$, since shifting is easier (thus more performant) to bitblast. To justify these canonicalizations within Lean, we have to prove the equality holds for all possible widths.
 
   
+<!-- TODO: we should write a proof or explain why it's undecidable. -->
+Bitvector equality, quantified over bitwidth is undecidable in general, so there is no hope to write reliable proof automation for all possible first-order expressions over bitvectors that universally quantified over bitwidth. However, we can write decision procedures for expressions with a limited set of operations.
 
-Deciding such equalities is known to be undecidable in general, so there is no hope to write reliable proof automation for all possible properties. However, we can write decision procedures for expressions with a limited set of operations.
-
-We identify, and provide Lean proof automation for, three such classes. Namely, when the property of interest contains:
-
-* Only bitwise operations (and, or, not, xor), or
-* Only addition and multiplication, assuming that these don't overflow, or
-* Only addition, bitwise operations and left shift by a constant
+Toward this goal, we identify, and provide Lean proof automation for, three such classes. Namely, when the property of interest contains (a) Only bitwise operations (and, or, not, xor), or (b) Only addition and multiplication, assuming that these don't overflow, or (c) Only addition, bitwise operations and left shift by a constant, we provide a decision procedure that is based on an automata-theoretic lens on bitvector operations.
 
   
 Finally, we evaluate these decision procedures by looking at a big corpus of real-world bitvector equalities, taken from the domain of compiler optimizations, to see what portion of real-world problems fall within the classes we are able to solve.
