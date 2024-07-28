@@ -15,9 +15,9 @@
 ![[05 Automaton Decision Procedure]]
 
 
-![[04 Non-complete automation]]
+![[06 Heuristics-based automation]]
 ## Evaluation
-![[06 Evaluation]]
+![[07 Evaluation]]
 
 
 ## Reading Notes
