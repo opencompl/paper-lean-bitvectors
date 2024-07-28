@@ -51,4 +51,17 @@ This gives us the proof that this is inbounds. So in total, we implement $\textt
 
 ## Bitwise Reasoning via `getLsb`
 
+To retrieve the value of a particular bit in a bitvector, we have the operation `v.getLsb i` which returns the value of the $i$-th least significant bit (`v.getLsb 0` is the least significant bit, while `v.getLsb (w-1)` is the most significant bit.)
+This is implemented in terms of $\texttt{v.getLsb i} \equiv \texttt{v.toNat.testBit i}$,
+where $\texttt{n.testBit i} \equiv 1 \&\&\& (n >>> i) \neq 0$.
+We define this way as it is (as usual) fast to execute.
+See that this definition is defined for all natural numbers $i$, and simply returns $0$ when $i > w$.
+Furthermore, this definition is clean to reason with, provided one has sufficient theory of bitwise operations on natural numbers.
+Given this definition of `getLsb`, we provide full coverage: for every bitvector operation,
+we also have a theorem that describes the bits of the result of the operation.
+For example, we have `getLsb (v.zeroExtend w') i = v.getLsb i`.
+This enables easy bitwise reasoning.
+
+\sid{Do we write about ext tactic and \texttt{eq\_of\_getLsb\_eq} here or elsewhere?}
+
 ## Circuit Reasoning for Addition via `unfoldr`
