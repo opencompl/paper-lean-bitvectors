@@ -22,22 +22,19 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
 
+    - name: Install pandoc
+      run: |
+        sudo apt install pandoc pandoc-crossref
+	make markdown-files
+
     - name: Compile paper
       uses: xu-cheng/latex-action@master
       with:
-        pre_compile: |
-          apk add pandoc
-          apk add hs-pandoc-crossref
-          make paper.pdf
         root_file: paper.tex
 
     - name: Compile submission
       uses: xu-cheng/latex-action@master
       with:
-        pre_compile: |
-          apk add pandoc
-          apk add hs-pandoc-crossref
-          make submission.pdf
         root_file: submission.tex
 
     - name: Format Python files with yapf

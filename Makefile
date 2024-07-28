@@ -24,9 +24,10 @@ grammar: paper.tex
 
 MD_FILES = $(wildcard outline/*.md)
 
-
 %.tex: %.md
 	pandoc -f markdown --filter pandoc-crossref --natbib -t latex -o $@ $<
+
+markdown-files: $(MD_FILES:.md=.tex)
 
 ${PDF_PAPER}: ${TEX_MAIN_PAPER} ${IMAGES} $(MD_FILES:.md=.tex) $(wildcard outline/*.tex)
 	latexmk ${TEX_MAIN_PAPER}
