@@ -93,3 +93,11 @@ This enables easy bitwise reasoning.
 \sid{Do we write about ext tactic and \texttt{eq\_of\_getLsb\_eq} here or elsewhere?}
 
 ## Circuit Reasoning for Addition via `unfoldr`
+
+For operations such as addition, there is also a convenient stream (coinductive) based reasoning
+principle where we think of the operation as the outputs of a state machine.
+This view is used to show the equivalence between the previously-shown arithmetic based definition of addition,
+and the circuit based definition of addition we will eventually need for bitblasting.
+`iunfoldr`:
+`carry`:
+`adc`:
