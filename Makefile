@@ -24,7 +24,7 @@ grammar: paper.tex
 
 
 %.tex: %.md
-	pandoc -f markdown -t latex -o $@ $<
+	pandoc -f markdown --filter pandoc-crossref --natbib -t latex -o $@ $<
 
 ${PDF_PAPER}: ${TEX_MAIN_PAPER} ${IMAGES} \
 	outline/00-abstract.tex \
