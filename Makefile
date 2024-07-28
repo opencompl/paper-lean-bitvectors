@@ -33,7 +33,8 @@ ${PDF_PAPER}: ${TEX_MAIN_PAPER} ${IMAGES} \
 	outline/02-arbitrary-width.tex \
 	outline/03-Automaton-Decision-Procedure.tex \
 	outline/04-Non-complete-automation.tex \
-	outline/05-Evaluation.tex
+	outline/05-Evaluation.tex \
+	outline/06-Related-Work.tex
 	latexmk ${TEX_MAIN_PAPER}
 
 ${PDF_SUBMISSION}: ${TEX_MAIN_SUBMISSION} ${IMAGES} \
@@ -43,7 +44,8 @@ ${PDF_SUBMISSION}: ${TEX_MAIN_SUBMISSION} ${IMAGES} \
 	outline/02-arbitrary-width.tex \
 	outline/03-Automaton-Decision-Procedure.tex \
 	outline/04-Non-complete-automation.tex \
-	outline/05-Evaluation.tex
+	outline/05-Evaluation.tex \
+	outline/06-Related-Work.tex
 	latexmk ${TEX_MAIN_SUBMISSION}
 
 paper: ${PDF_PAPER}
