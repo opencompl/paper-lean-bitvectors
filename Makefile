@@ -22,30 +22,16 @@ grammar: paper.tex
 	-textidote --check en --output html paper.tex > index.html
 	python3 -m http.server
 
+MD_FILES = $(wildcard outline/*.md)
+
 
 %.tex: %.md
 	pandoc -f markdown --filter pandoc-crossref --natbib -t latex -o $@ $<
 
-${PDF_PAPER}: ${TEX_MAIN_PAPER} ${IMAGES} \
-	outline/00-abstract.tex \
-	outline/01-introduction.tex \
-	outline/01-LeanSAT.tex \
-	outline/02-arbitrary-width.tex \
-	outline/03-Automaton-Decision-Procedure.tex \
-	outline/04-Non-complete-automation.tex \
-	outline/05-Evaluation.tex \
-	outline/06-Related-Work.tex
+${PDF_PAPER}: ${TEX_MAIN_PAPER} ${IMAGES} $(MD_FILES:.md=.tex) $(wildcard outline/*.tex)
 	latexmk ${TEX_MAIN_PAPER}
 
-${PDF_SUBMISSION}: ${TEX_MAIN_SUBMISSION} ${IMAGES} \
-	outline/00-abstract.tex \
-	outline/01-introduction.tex \
-	outline/01-LeanSAT.tex \
-	outline/02-arbitrary-width.tex \
-	outline/03-Automaton-Decision-Procedure.tex \
-	outline/04-Non-complete-automation.tex \
-	outline/05-Evaluation.tex \
-	outline/06-Related-Work.tex
+${PDF_SUBMISSION}: ${TEX_MAIN_SUBMISSION} ${IMAGES} $(MD_FILES:.md=.tex) $(wildcard outline/*.tex)
 	latexmk ${TEX_MAIN_SUBMISSION}
 
 paper: ${PDF_PAPER}
