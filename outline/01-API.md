@@ -1,4 +1,4 @@
-# Designining Lean's BitVector Library
+# Designing Lean's BitVector Library
 
 Designing a good API is an essential art in productive proof engineering.
 We describe the overall design of the bitvector API.
