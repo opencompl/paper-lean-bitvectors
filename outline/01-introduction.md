@@ -12,7 +12,8 @@ SMT solvers are excellent at solving equations about fixed-width bitvectors, as 
 
   
 
-Interactive theorem provers (ITPs) allow for limitless bitvector reasoning: they can express both fixed-width and bit-width-generic theorems, while proofs are only limited by the mathematical abilities of the proof engineer. Big formal verification efforts such as CompCert [@leroy2016compcert], [DeepSpec], and [Chipala] for the end-to-end verification of compilers, as well as efforts to verify an SAT solver [cite], have resulted in several BitVector libraries in COQ [A, B, C], with no official support across all of them. Isabelle is particularly well-known for the powerful automation it gains from the close integration of proof-producing SMT solvers, which also applies to its ability to reason about BitVectors. Yet, <...>. Finally, while both Isabell and COQ support code extraction, they are primarily a proof environment and less a programming language.
+Interactive theorem provers (ITPs) allow for limitless bitvector reasoning: they can express both fixed-width and bit-width-generic theorems, while proofs are only limited by the mathematical abilities of the proof engineer. Big formal verification efforts such as CompCert [@leroy2016compcert], [DeepSpec], and [Chipala] for the end-to-end verification of compilers, as well as efforts to verify an SAT solver [cite], have resulted in several BitVector libraries in COQ [A, B, C], with no official support across all of them. Isabelle is particularly well-known for the powerful automation it gains from the close integration of proof-producing SMT solvers, which also applies to its ability to reason about BitVectors.
+Finally, while both Isabell and COQ support code extraction, they are primarily a proof environment and less a programming language.
 
 In this work, we make a case for unified first-class bitvector support in an interactive theorem prover that delivers along all three dimensions: (a) automation, (b) extensibility, and (c) programmability. In particular, we present a comprehensive theory of bitvector reasoning that is complete for either fixed-width reasoning, or for arbitrary-width reasoning over specific classes of operations.
 
@@ -26,19 +27,14 @@ To make performance more reliable, SMT solvers rely on a host of canonicalizatio
 
   
 <!-- TODO: we should write a proof or explain why it's undecidable. -->
-Bitvector equality, quantified over bitwidth is undecidable in general, so there is no hope to write reliable proof automation for all possible first-order expressions over bitvectors that universally quantified over bitwidth. However, we can write decision procedures for expressions with a limited set of operations.
-
+Bitvector equality, quantified over bitwidth is undecidable in general, so there is no hope to write reliable proof automation for all possible first-order expressions over bitvectors which universally quantify over bitwidth. However, decision procedures for expressions with a limited set of operations can be written.
 Toward this goal, we identify, and provide Lean proof automation for, three such classes. Namely, when the property of interest contains (a) Only bitwise operations (and, or, not, xor), or (b) Only addition and multiplication, assuming that these don't overflow, or (c) Only addition, bitwise operations and left shift by a constant, we provide a decision procedure that is based on an automata-theoretic lens on bitvector operations.
 
   
-Finally, we evaluate these decision procedures by looking at a big corpus of real-world bitvector equalities, taken from the domain of compiler optimizations, to see what portion of real-world problems fall within the classes we are able to solve.
-
-  
-
-Our contributions are:
+Finally, we evaluate these decision procedures by looking at a big corpus of real-world bitvector equalities, taken from the domain of compiler optimizations, to see what portion of real-world problems fall within the classes we are able to solve. Concretely, our contributions are:
 
 * First-class bit vectors for interactive theorem proving: design and implementation of a bitvector theory, its close integration with fixed and arbitrary-width decision procedures, and the deep integration of our system in a modern modern theorem prover -- offering streamlined bit vector reasoning for proof engineering
-* A fully integrated tactic to discharge fixed-width bitvector goals, by using reflection, a verified bitblaster, and SAT certificate checking
-* An automata based verified decision procedure which can solve a mix of arbitrary-width bitwise and arithmetic operations, and use it to build a simplification pass for bitvector goals
-* An overview of existing bitvector decision procedures, proof automation in general, and the bitvector equalities they can solve.
+* A fully integrated tactic to discharge fixed-width bitvector goals, by using reflection, a verified bitblaster, and SAT certificate checking.
+* An automata based verified decision procedure which can solve a mix of arbitrary-width bitwise and arithmetic operations, and use it to build a simplification pass for bitvector goals.
+<!-- * An overview of existing bitvector decision procedures, proof automation in general, and the bitvector equalities they can solve. -->
 
