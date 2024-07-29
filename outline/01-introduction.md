@@ -14,8 +14,11 @@ SMT solvers are excellent at solving equations about fixed-width bitvectors, as 
 
   
 
-Interactive theorem provers (ITPs) allow for limitless bitvector reasoning: they can express both fixed-width and bit-width-generic theorems, while proofs are only limited by the mathematical abilities of the proof engineer. Big formal verification efforts such as CompCert [@leroy2016compcert], [DeepSpec], and [Chipala] for the end-to-end verification of compilers, as well as efforts to verify an SAT solver [cite], have resulted in several BitVector libraries in COQ [A, B, C], with no official support across all of them. Isabelle is particularly well-known for the powerful automation it gains from the close integration of proof-producing SMT solvers, which also applies to its ability to reason about BitVectors.
-Finally, while both Isabell and COQ support code extraction, they are primarily a proof environment and less a programming language.
+Interactive theorem provers (ITPs) allow for limitless bitvector reasoning: they can express both fixed-width and bit-width-generic theorems, while proofs are only limited by the mathematical abilities of the proof engineer. Big formal verification efforts such as CompCert [@leroy2016compcert], [DeepSpec], and [Chipala] for the end-to-end verification of compilers, as well as efforts to verify an SAT solver [cite], have resulted in several BitVector libraries in COQ [A, B, C], with no official support across all of them.
+\grosser{Can someone fill the citations for the several bitvec libraries in COQ as well as the verified SAT solver?}
+Isabelle is particularly well-known for the powerful automation it gains from the close integration of proof-producing SMT solvers, which also applies to its ability to reason about BitVectors.
+\grosser{Can we state half-a-sentence the limitations we see in Isabelle's bitvector implementation?}
+Finally, while both Isabelle and COQ support code extraction, they are primarily a proof environment and less a programming language.
 
 In this work, we make a case for unified first-class bitvector support in an interactive theorem prover that delivers along all three dimensions: (a) automation, (b) extensibility, and (c) programmability. In particular, we present a comprehensive theory of bitvector reasoning that is complete for either fixed-width reasoning, or for arbitrary-width reasoning over specific classes of operations.
 

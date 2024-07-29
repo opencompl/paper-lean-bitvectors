@@ -80,7 +80,7 @@ do not need to be guarded by a modulo. So, we have theorems such as $(carry(a, b
 
 To retrieve the value of a particular bit in a bitvector, we have the operation `v.getLsb i` which returns the value of the $i$-th least significant bit (`v.getLsb 0` is the least significant bit, while `v.getLsb (w-1)` is the most significant bit.)
 This is implemented in terms of $\texttt{v.getLsb i} \equiv \texttt{v.toNat.testBit i}$,
-where $\texttt{n.testBit i} \equiv 1 \&\&\& (n >>> i) \neq 0$.
+where $\texttt{n.testBit i} \equiv 1~\&\&\&~(n >>> i) \neq 0$.
 We define this way as it is (as usual) fast to execute.
 See that this definition is defined for all natural numbers $i$, and simply returns $0$ when $i > w$.
 Furthermore, this definition is clean to reason with, provided one has sufficient theory of bitwise operations on natural numbers.
@@ -100,3 +100,5 @@ and the circuit-based definition of addition we will eventually need for bitblas
 `iunfoldr`:
 `carry`:
 `adc`:
+
+\grosser{This section seems incomplete and I am really curious about its content. I feel there is more to write about this section.}
