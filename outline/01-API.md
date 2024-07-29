@@ -22,7 +22,7 @@ The core mechanization API consists of \NumDefsAndAbbrevs definitions and abbrev
 
 ## Design of BitVector Definitions
 
-The low-definition of a $\texttt{BitVec} w$ is a number $n$ with a proof $\texttt{isLt} : n < 2^w$.
+The low-definition of a $\texttt{BitVec}~w$ is a number $n$ with a proof $\texttt{isLt} : n < 2^w$.
 We choose this definition, instead of the other potential choice of a vector of booleans as this definition permits efficient implementation of all operations, both arithmetic and bitwise. Recall that Lean's kernel has special support for natural numbers via GMP, and we ensure our definitions are capable of exploiting this.
 Moreover, the representation is \emph{signless} --- the bitvector itself carries no notion of being signed or unsigned.
 Rather, operations on bitvectors interpret it as signed or unsigned.
@@ -37,7 +37,7 @@ Addition, subtraction, multiplication, and unsigned division is represented by a
 The result of these operations on naturals modulo $2^w$ is by definition guaranteed to be less than $2^w$, thereby fulfilling the proof obligation `isLt`.
 
 
-For bitwise operations, we reuse Lean's bitwise operations on natural numbers (once again, implemented in the kernel via GMP). We prove additional theorems that the results of bitwise operations always fits within the bitwidth.
+For bitwise operations, we reuse Lean's bitwise operations on natural numbers (once again, implemented in the kernel via GMP). We prove additional theorems that the results of bitwise operations always fit within the bitwidth.
 
 For operations that are sign-sensitive, i.e. signed division, sign extension, signed shift rights,
 we also implement coercions to and from $\mathbb Z$. `toInt` converts a bitvector into its twos
