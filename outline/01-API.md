@@ -95,7 +95,7 @@ This enables easy bitwise reasoning.
 
 For operations such as addition, there is also a convenient stream (coinductive) based reasoning
 principle where we think of the operation as the outputs of a state machine.
-This view is used to show the equivalence between the previously-shown arithmetic arithmetic-based definition of addition,
+This view is used to show the equivalence between the previously-shown arithmetic-based definition of addition,
 and the circuit-based definition of addition we will eventually need for bitblasting.
 `iunfoldr`:
 `carry`:
