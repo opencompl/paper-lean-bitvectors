@@ -10,7 +10,6 @@
  >- Canonicalization (i.e., simp normal forms) is a big thing
  >- Potentially, we move the discussion of 2-adic multiplication here, to frame it as one of these "non-complete" automations
 
-
 > Alex:
 > Probably, we don't want to mention 2-adic multiplication at all, which removes much of the need of this section. We can move the discussion of basic AP
 design to the Preliminaries section.

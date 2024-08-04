@@ -6,7 +6,6 @@ We evaluate our decision procedure, both for finite and arbitrary widths, agains
 * We thus filter out test cases which have any operations beyond: op1, op2, etc. (TODO: actually list these)
 * This leaves us with XX rewrites from LLVM's test suite, and YY rewrites from
 
-
 ## LeanSAT
 First, let us quantify the cost of verified SAT-solving.
 >[!TODO]
