@@ -1,5 +1,12 @@
 # Evaluation
 
++We evaluate our decision procedure, both for finite and arbitrary widths, against a corpus of bitvector equations from the domain of compiler optimizations. Specifically, we look at rewrites of LLVM IR, obtained from the test-suite^[TODO: link to the directory that contains the original test in the LLVM source code repo] of LLVM's peephole optimization pass, InstCombine, and from Alive2, a translation validation tool for LLVM IR [[@lopesAlive2BoundedTranslation2021]].
++
++* LLVM IR has more than just bitvector ops (e.g., load/store, but also vector math or floating point)
++* We thus filter out test cases which have any operations beyond: op1, op2, etc. (TODO: actually list these)
++* This leaves us with XX rewrites from LLVM's test suite, and YY rewrites from
++
+
 ## LeanSAT
 First, let us quantify the cost of verified SAT-solving.
 >[!TODO]
